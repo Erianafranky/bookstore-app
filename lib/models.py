@@ -33,8 +33,9 @@ class Book(Base):
     price = Column(Float)
     quantity = Column(Integer)
     
-    #Book class has a one-to-many relationship with the Order class
+    #Book class has a many-to-many relationship with the Genre class
     genres = relationship("Genre", secondary=book_genre_table, back_populates="books")
+    #Book class has a one-to-many relationship with the Order class
     orders = relationship("Order", back_populates="book")
 
     # we define functions for our book contex for adding,updating,displaying and deleting books to and from our store.
