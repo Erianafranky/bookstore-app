@@ -178,7 +178,7 @@ def delete_order():
     session.delete(order)
     session.commit()
 
-    print(f"Order ID {order_id} deleted from the database.")
+    print_success(f"Order ID {order_id} deleted from the database.")
 
 def search_books_by_genre():
     genre_name = print_input("Enter the genre name to search for books: ")
