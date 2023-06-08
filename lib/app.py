@@ -118,7 +118,6 @@ def display_customers():
     session.commit()
     print("\n*** Customers ***")
     for customer in customers:
-        #print_success(f"ID: {customer.customer_id}, Name: {customer.name}, Email: {customer.email}, Phone: {customer.phone}")
         print(f"{Fore.GREEN}ID: {Fore.BLUE}{customer.customer_id}{Style.RESET_ALL}, "
             f"{Fore.GREEN}Name: {Fore.YELLOW}{customer.name}{Style.RESET_ALL}, "
             f"{Fore.GREEN}Email: {Fore.YELLOW}{customer.email}{Style.RESET_ALL}, "
@@ -164,7 +163,6 @@ def display_orders():
     orders = session.query(Order).all()
     print_success("\n*** Orders ***")
     for order in orders:
-        #print_success(f"Order ID: {order.order_id}, Customer: {order.customer.name}, Book: {order.book.title}, Quantity: {order.quantity}, Date: {order.order_date}")
         print(f"{Fore.GREEN}Order ID: {Fore.BLUE}{order.order_id}{Style.RESET_ALL}, "
             f"{Fore.GREEN}Customer: {Fore.YELLOW}{order.customer.name}{Style.RESET_ALL}, "
             f"{Fore.GREEN}Book: {Fore.YELLOW}{order.book.title}{Style.RESET_ALL}, "
@@ -194,9 +192,16 @@ def search_books_by_genre():
         print_error("No books found for the given genre.")
         return
 
-    print_success("\nBooks in the '{}' Genre:".format(genre_name))
+    print_exit("\nBooks in the '{}' Genre:".format(genre_name))
     for book in books:
-        print_success("Title: {}, Author: {}".format(book.title, book.author))
+        #print_success("Title: {}, Author: {}".format(book.title, book.author))
+        title_key = f"{Fore.GREEN}Title: {Style.RESET_ALL}"
+        author_key = f"{Fore.GREEN}Author: {Style.RESET_ALL}"
+        title_value = f"{Fore.YELLOW}{book.title}{Style.RESET_ALL}"
+        author_value = f"{Fore.YELLOW}{book.author}{Style.RESET_ALL}"
+
+        print_success(f"{title_key} {title_value}, {author_key} {author_value}")
+
 
 if __name__ == '__main__':
     while True:
