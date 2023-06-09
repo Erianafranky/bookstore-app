@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from colorama import init, Fore, Style
+from prettytable import PrettyTable
 
 from models import Book, Customer, Order, Genre, Base
 
@@ -180,6 +181,57 @@ def delete_order():
 
     print_success(f"Order ID {order_id} deleted from the database.")
 
+def print_database():
+    print_customer_table()
+    print_book_table()
+    print_genre_table()
+    print_order_table()
+
+def print_customer_table():
+    table = PrettyTable()
+    table.field_names = ["ID", "Name", "Email", "Phone"]
+
+    customers = session.query(Customer).all()
+    for customer in customers:
+        table.add_row([customer.customer_id, customer.name, customer.email, customer.phone])
+
+    print("\n*** Customers ***")
+    print(table)
+
+def print_book_table():
+    table = PrettyTable()
+    table.field_names = ["ID", "Title", "Author", "Publication Date", "Price", "Quantity"]
+
+    books = session.query(Book).all()
+    for book in books:
+        table.add_row([book.book_id, book.title, book.author, book.publication_date, book.price, book.quantity])
+
+    print("\n*** Books ***")
+    print(table)
+
+def print_genre_table():
+    table = PrettyTable()
+    table.field_names = ["ID", "Name"]
+
+    genres = session.query(Genre).all()
+    for genre in genres:
+        table.add_row([genre.genre_id, genre.name])
+
+    print("\n*** Genres ***")
+    print(table)
+
+def print_order_table():
+    table = PrettyTable()
+    table.field_names = ["ID", "Customer", "Book", "Quantity", "Order Date"]
+
+    orders = session.query(Order).all()
+    for order in orders:
+        table.add_row([order.order_id, order.customer.name, order.book.title, order.quantity, order.order_date])
+
+    print("\n*** Orders ***")
+    print(table)
+
+        
 def search_books_by_genre():
     genre_name = print_input("Enter the genre name to search for books: ")
     genre = session.query(Genre).filter_by(name=genre_name).first()
@@ -218,8 +270,8 @@ if __name__ == '__main__':
         print("9. Delete Customer")
         print("10. Delete an order")
         print("11. Search Books by Genre")
-        print("12. Exit")
-
+        print("12. Print database")
+        print("13.Exit")
         choice = print_input("Enter your choice: ")
 
         if choice == '1':
@@ -244,10 +296,16 @@ if __name__ == '__main__':
             delete_order()
         elif choice == '11':
             search_books_by_genre()
-        elif choice == '12':
+        elif choice == '13':
             print_exit("Exiting the Bookstore application. Goodbye!")
             break
+        elif choice == '12':
+            print_database()
+        
         else:
             print_error("Invalid option. Please try again.")
+        
+            
 
 
+         
